@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriVane - AI Health Platform</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #4a6b43; /* Hijau gelap pekat */
+            --secondary-green: #597e52; /* Hijau elemen tombol */
+            --bg-light: #eaf4e1; /* Hijau pastel background utama */
+            --bg-white: #ffffff;
+            --text-dark: #2b4226;
+            --text-light: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            background-color: var(--bg-white);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary-green);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .navbar-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .navbar-links a:hover {
+            color: var(--secondary-green);
+        }
+
+        /* Tombol Download di Navbar */
+        .btn-nav-download {
+            background-color: var(--secondary-green);
+            color: var(--text-light) !important;
+            padding: 8px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-nav-download:hover {
+            background-color: var(--primary-green);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 120px 5% 60px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #eaf4e1 0%, #cde5b7 100%);
+            flex-wrap: wrap;
+        }
+
+        .hero-content {
+            flex: 1;
+            min-width: 300px;
+            max-width: 600px;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            color: var(--primary-green);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* Fitur Clickable Preview */
+        .hero-preview {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            min-width: 300px;
+            padding: 20px;
+        }
+
+        .phone-mockup {
+            width: 280px;
+            height: 580px;
+            background-color: var(--bg-white);
+            border: 12px solid #333;
+            border-radius: 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            cursor: pointer;
+            display: block;
+            text-decoration: none;
+        }
+
+        /* Efek saat preview disorot (Hover) */
+        .phone-mockup:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 50px rgba(89, 126, 82, 0.4);
+        }
+
+        /* Label Clickable di atas HP */
+        .click-hint {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(43, 66, 38, 0.85);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 16px;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+            width: 80%;
+        }
+
+        .phone-mockup:hover .click-hint {
+            opacity: 1;
+        }
+
+        /* Desain dalam layar HP buatan (mirip mockup referensi) */
+        .screen-content {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #ffffff 0%, #d4e7c5 100%);
+            padding: 40px 20px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .screen-title {
+            color: var(--primary-green);
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .screen-pill {
+            width: 100%;
+            background-color: var(--secondary-green);
+            height: 40px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+        
+        .screen-box-container {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .screen-box {
+            flex: 1;
+            background-color: white;
+            height: 80px;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* Section Fitur */
+        .features {
+            padding: 80px 5%;
+            background-color: var(--bg-white);
+            text-align: center;
+        }
+
+        .features h2 {
+            color: var(--primary-green);
+            font-size: 36px;
+            margin-bottom: 50px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background-color: var(--bg-light);
+            padding: 30px;
+            border-radius: 25px;
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 40px;
+            color: var(--secondary-green);
+            margin-bottom: 15px;
+        }
+
+        .feature-card h3 {
+            color: var(--text-dark);
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--primary-green);
+            color: var(--text-light);
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 100px;
+            }
+            .hero-content h1 { font-size: 36px; }
+            .navbar-links { display: none; /* Disembunyikan di mobile agar rapi, fokus ke konten */ }
+            .hero-preview { margin-top: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navbar -->
+    <nav class="navbar">
+        <a href="#" class="navbar-logo">
+            <i class="fa-solid fa-leaf"></i> NutriVane
+        </a>
+        <div class="navbar-links">
+            <a href="#beranda">Beranda</a>
+            <a href="#fitur">Fitur Utama</a>
+            <a href="#tentang">Tentang</a>
+            <!-- Link ini juga bisa diarahkan langsung ke APK -->
+            <a href="#download" class="btn-nav-download" onclick="alert('Mengunduh APK NutriVane...')">
+                <i class="fa-solid fa-download"></i> Download App
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="beranda" class="hero">
+        <div class="hero-content">
+            <h1>Nutrisi Pintar untuk Generasi Sehat</h1>
+            <p>NutriVane adalah platform AI yang memadukan pemantauan gizi, pengukuran bumbu resep cerdas, serta pelacakan suasana hati untuk membantu remaja membangun kebiasaan makan yang lebih baik.</p>
+            <div style="margin-top: 20px;">
+                <p style="font-size: 14px; font-weight: bold; color: var(--primary-green);">
+                    <i class="fa-solid fa-hand-point-right"></i> Klik *Smartphone* di samping untuk langsung membuka Aplikasi!
+                </p>
+            </div>
+        </div>
+
+        <div class="hero-preview">
+            <!-- INI ADALAH PREVIEW APLIKASI YANG BISA DIKLIK (KONSEP PERANTARA) -->
+            <!-- Nanti ganti href="#" dengan link APK, Link Drive, atau Link Web App Anda -->
+            <a href="#" class="phone-mockup" onclick="alert('Ini akan langsung membuka/mengunduh Aplikasi NutriVane Anda!');">
+                <div class="click-hint">
+                    <i class="fa-solid fa-rocket"></i><br>Buka Aplikasi Sekarang
+                </div>
+                <!-- Animasi layar UI sederhana mencerminkan desain NutriVane -->
+                <div class="screen-content">
+                    <div class="screen-title">NutriVane</div>
+                    <div class="screen-box-container">
+                        <div class="screen-box"></div>
+                        <div class="screen-box"></div>
+                    </div>
+                    <div class="screen-pill" style="width: 80%;"></div>
+                    <div class="screen-pill" style="width: 90%;"></div>
+                    <div class="screen-pill" style="width: 85%;"></div>
+                    <div class="screen-pill" style="width: 70%;"></div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Fitur Section -->
+    <section id="fitur" class="features">
+        <h2>Fitur Utama Kami</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fa-solid fa-camera feature-icon"></i>
+                <h3>Scan Your Food</h3>
+                <p>Kenali makanan Anda dan dapatkan estimasi informasi gizi hanya dengan mengunggah foto melalui teknologi Vision AI.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-spoon feature-icon"></i>
+                <h3>Measuring Spices</h3>
+                <p>Dapatkan panduan referensi rata-rata takaran bumbu masakan berdasarkan analisis komparatif berbagai resep.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-face-smile feature-icon"></i>
+                <h3>Your Mood</h3>
+                <p>Catat dan refleksikan suasana hati harian Anda untuk memahami pola antara emosi dan kebiasaan makan.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fa-solid fa-book-journal-whills feature-icon"></i>
+                <h3>Personalized Diet</h3>
+                <p>Rekomendasi makanan, minuman, dan menu harian yang disesuaikan khusus untuk konteks dan kebutuhan Anda.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="tentang" class="footer">
+        <p>&copy; 2026 NutriVane Project - Madrasah Tsanawiyah Wahid Hasyim Yogyakarta</p>
+        <p style="font-size: 12px; margin-top: 10px; opacity: 0.7;">Developed for Nutrition Assessment & Emotional Monitoring</p>
+    </footer>
+
+</body>
+</html>
